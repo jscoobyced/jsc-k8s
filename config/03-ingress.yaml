@@ -17,6 +17,8 @@ spec:
       - www.sawan.io
       - rochefolle.net
       - www.rochefolle.net
+      - rochefolle.org
+      - www.rochefolle.org
       secretName: jsc-ingress
   rules:
   - host: "himdomecafe.com"
@@ -90,6 +92,26 @@ spec:
             port:
               number: 80
   - host: "www.rochefolle.net"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: rochefolle
+            port:
+              number: 80
+  - host: "rochefolle.org"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: rochefolle
+            port:
+              number: 80
+  - host: "www.rochefolle.org"
     http:
       paths:
       - pathType: Prefix
