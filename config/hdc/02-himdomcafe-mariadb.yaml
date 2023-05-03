@@ -1,0 +1,83 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: hdc-wp-mariadb
+  namespace: jsc-ns
+  labels:
+    app: hdc-wp
+spec:
+  ports:
+    - port: 3306
+  selector:
+    app: hdc-wp
+    tier: mariadb
+  clusterIP: None
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: hdc-mariadb-pv-claim
+  namespace: jsc-ns
+  labels:
+    app: hdc-wp
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hdc-wp-mariadb
+  namespace: jsc-ns
+  labels:
+    app: hdc-wp
+spec:
+  selector:
+    matchLabels:
+      app: hdc-wp
+      tier: mariadb
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      namespace: jsc-ns
+      labels:
+        app: hdc-wp
+        tier: mariadb
+    spec:
+      containers:
+      - image: mariadb:latest
+        name: mariadb
+        resources:
+          requests:
+            ephemeral-storage: "1Gi"
+          limits:
+            ephemeral-storage: "2Gi"
+        env:
+        - name: MARIADB_USER
+          value: hdc-wp-user
+        - name: MARIADB_DATABASE
+          value: hdc-wp-db
+        - name: MARIADB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: hdc-secret
+              key: wp_password
+        - name: MARIADB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: hdc-secret
+              key: mysql_password
+        ports:
+        - containerPort: 3306
+          name: hdc-mariadb
+        volumeMounts:
+        - name: hdc-persistent-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: hdc-persistent-storage
+        persistentVolumeClaim:
+          claimName: hdc-mariadb-pv-claim

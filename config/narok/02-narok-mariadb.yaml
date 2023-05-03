@@ -1,0 +1,83 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: narok-wp-mariadb
+  namespace: jsc-ns
+  labels:
+    app: narok-wp
+spec:
+  ports:
+    - port: 3306
+  selector:
+    app: narok-wp
+    tier: mariadb
+  clusterIP: None
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: narok-mariadb-pv-claim
+  namespace: jsc-ns
+  labels:
+    app: narok-wp
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: narok-wp-mariadb
+  namespace: jsc-ns
+  labels:
+    app: narok-wp
+spec:
+  selector:
+    matchLabels:
+      app: narok-wp
+      tier: mariadb
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      namespace: jsc-ns
+      labels:
+        app: narok-wp
+        tier: mariadb
+    spec:
+      containers:
+      - image: mariadb:latest
+        name: mariadb
+        resources:
+          requests:
+            ephemeral-storage: "1Gi"
+          limits:
+            ephemeral-storage: "2Gi"
+        env:
+        - name: MARIADB_USER
+          value: narok-wp-user
+        - name: MARIADB_DATABASE
+          value: narok-wp-db
+        - name: MARIADB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: narok-secret
+              key: wp_password
+        - name: MARIADB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: narok-secret
+              key: mysql_password
+        ports:
+        - containerPort: 3306
+          name: narok-mariadb
+        volumeMounts:
+        - name: narok-persistent-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: narok-persistent-storage
+        persistentVolumeClaim:
+          claimName: narok-mariadb-pv-claim

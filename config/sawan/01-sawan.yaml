@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sawan
+  namespace: jsc-ns
+  labels:
+    app: sawan
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: sawan
+    tier: frontend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sawan
+  namespace: jsc-ns
+  labels:
+    app: sawan
+spec:
+  selector:
+    matchLabels:
+      app: sawan
+      tier: frontend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      namespace: jsc-ns
+      labels:
+        app: sawan
+        tier: frontend
+    spec:
+      containers:
+      - image: jscdroiddev/jsc-tarot:latest
+        name: sawan
+        resources:
+          requests:
+            ephemeral-storage: "1Gi"
+            memory: "200Mi"
+          limits:
+            ephemeral-storage: "2Gi"
+            memory: "250Mi"
+        ports:
+        - containerPort: 80
+          name: sawan
