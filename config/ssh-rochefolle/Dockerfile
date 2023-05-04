@@ -4,7 +4,7 @@ LABEL maintainer="Cédric Rochefolle <19742131+jscoobyced@users.noreply.github.c
 LABEL description="Creates and run an SSH server on default port 22."
 
 ARG SSH_PUB_KEY
-RUN apk add --update --no-cache openssh mysql-client
+RUN apk add --update --no-cache openssh rclone mysql-client fuse
 
 RUN adduser -h /home/jscoobyced -D jscoobyced
 RUN echo "jscoobyced:$(date +%s | sha256sum | base64 | head -c 32 ; echo -n)" | chpasswd

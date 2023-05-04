@@ -51,8 +51,11 @@ spec:
         tier: backend
     spec:
       containers:
-      - image: jscdroiddev/ssh-server:latest
+      - image: jscdroiddev/ssh-server:0.6
         name: ssh-rochefolle
+        securityContext:
+          privileged: true
+        imagePullPolicy: Always
         resources:
           requests:
             ephemeral-storage: "1Gi"
