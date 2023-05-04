@@ -1,0 +1,74 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ssh-rochefolle
+  namespace: jsc-ns
+  labels:
+    app: ssh-rochefolle
+spec:
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 22
+      targetPort: 22
+  selector:
+    app: ssh-rochefolle
+    tier: backend
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ssh-rochefolle-pv-claim
+  namespace: jsc-ns
+  labels:
+    app: ssh-rochefolle
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ssh-rochefolle
+  namespace: jsc-ns
+  labels:
+    app: ssh-rochefolle
+spec:
+  selector:
+    matchLabels:
+      app: ssh-rochefolle
+      tier: backend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      namespace: jsc-ns
+      labels:
+        app: ssh-rochefolle
+        tier: backend
+    spec:
+      containers:
+      - image: jscdroiddev/ssh-server:latest
+        name: ssh-rochefolle
+        resources:
+          requests:
+            ephemeral-storage: "1Gi"
+            memory: "200Mi"
+          limits:
+            ephemeral-storage: "2Gi"
+            memory: "250Mi"
+        ports:
+        - containerPort: 22
+          name: ssh-rochefolle
+        volumeMounts:
+        - name: ssh-rochefolle-persistent-storage
+          mountPath: /data
+      securityContext:
+        fsGroup: 1000
+      volumes:
+      - name: ssh-rochefolle-persistent-storage
+        persistentVolumeClaim:
+          claimName: ssh-rochefolle-pv-claim
