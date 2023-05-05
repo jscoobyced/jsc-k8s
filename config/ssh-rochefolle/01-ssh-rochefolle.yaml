@@ -53,6 +53,9 @@ spec:
       containers:
       - image: jscdroiddev/ssh-server:latest
         name: ssh-rochefolle
+        env:
+        - name: TZ
+          value: Asia/Bangkok
         securityContext:
           privileged: true
         imagePullPolicy: Always

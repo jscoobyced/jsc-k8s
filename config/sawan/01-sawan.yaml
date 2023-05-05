@@ -38,6 +38,9 @@ spec:
       containers:
       - image: jscdroiddev/jsc-tarot:latest
         name: sawan
+        env:
+        - name: TZ
+          value: Asia/Bangkok
         resources:
           requests:
             ephemeral-storage: "1Gi"

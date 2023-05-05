@@ -60,6 +60,8 @@ spec:
             ephemeral-storage: "2Gi"
             memory: "250Mi"
         env:
+        - name: TZ
+          value: Asia/Bangkok
         - name: WORDPRESS_DB_HOST
           value: hdc-wp-mariadb
         - name: WORDPRESS_DB_NAME

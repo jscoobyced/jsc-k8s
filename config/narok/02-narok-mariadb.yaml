@@ -57,6 +57,8 @@ spec:
           limits:
             ephemeral-storage: "2Gi"
         env:
+        - name: TZ
+          value: Asia/Bangkok
         - name: MARIADB_USER
           value: narok-wp-user
         - name: MARIADB_DATABASE
