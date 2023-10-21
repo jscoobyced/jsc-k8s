@@ -9,7 +9,7 @@ spec:
   type: ClusterIP
   ports:
     - port: 80
-      targetPort: 80
+      targetPort: 3000
   selector:
     app: sawan
     tier: frontend
@@ -36,7 +36,7 @@ spec:
         tier: frontend
     spec:
       containers:
-      - image: jscdroiddev/jsc-tarot:latest
+      - image: jscdroiddev/sawanio:0.0.3
         name: sawan
         env:
         - name: TZ
@@ -49,5 +49,5 @@ spec:
             ephemeral-storage: "2Gi"
             memory: "250Mi"
         ports:
-        - containerPort: 80
+        - containerPort: 3000
           name: sawan
