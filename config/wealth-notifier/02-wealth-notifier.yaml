@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: wealth-notifier-pv-claim
+  namespace: jsc-ns
+  labels:
+    app: wealth-notifier
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 500Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wealth-notifier
+  namespace: jsc-ns
+  labels:
+    app: wealth-notifier
+spec:
+  selector:
+    matchLabels:
+      app: wealth-notifier
+      tier: backend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      namespace: jsc-ns
+      labels:
+        app: wealth-notifier
+        tier: backend
+    spec:
+      containers:
+      - image: jscdroiddev/wealth-notifier:latest
+        name: wealth-notifier
+        resources:
+          requests:
+            ephemeral-storage: "500Mi"
+          limits:
+            ephemeral-storage: "1Gi"
+        env:
+        - name: TZ
+          value: Asia/Bangkok
+        - name: NODE_ENV
+          value: production
+        - name: SLACK_WEBHOOK
+          valueFrom:
+            secretKeyRef:
+              name: wl-secret
+              key: slack_webhook
+        volumeMounts:
+        - name: wealth-notifier-persistent-storage
+          mountPath: /data
+      volumes:
+      - name: wealth-notifier-persistent-storage
+        persistentVolumeClaim:
+          claimName: wealth-notifier-pv-claim
