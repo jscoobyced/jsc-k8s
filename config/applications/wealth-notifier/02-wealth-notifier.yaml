@@ -20,6 +20,7 @@ metadata:
   labels:
     app: wealth-notifier
 spec:
+  revisionHistoryLimit: 2
   selector:
     matchLabels:
       app: wealth-notifier
@@ -51,6 +52,26 @@ spec:
             secretKeyRef:
               name: wl-secret
               key: slack_webhook
+        - name: MARKETDATA_API_URL
+          valueFrom:
+            secretKeyRef:
+              name: wl-secret
+              key: market_data_api_url
+        - name: MARKETDATA_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: wl-secret
+              key: market_data_api_key
+        - name: YLGBULLION_URL
+          valueFrom:
+            secretKeyRef:
+              name: wl-secret
+              key: ylg_bullion_url
+        - name: AURORA_URL
+          valueFrom:
+            secretKeyRef:
+              name: wl-secret
+              key: aurora_url
         volumeMounts:
         - name: wealth-notifier-persistent-storage
           mountPath: /data

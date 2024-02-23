@@ -23,7 +23,16 @@ You will need the following:
 - helm
 - you kubeconfig file setup
 
-If you don't have a load-balancer and ingress, run the [install-ingress.sh](config/install-ingress.sh) to configure your cluster.
+First we install our namespace to make things easy to filter:
+```
+kubectl --kubeconfig=path/to/kubeconfig apply -f config/01-namespace.yaml
+```
+
+Then we install and configure the ingress:
+```
+./config/install-ingress.sh
+kubectl --kubeconfig=path/to/kubeconfig apply -f 03-ingress-k3s.yaml
+```
 
 If you don't have a cert-manager (for HTTPS), run the [install-cert-manager.sh](config/install-cert-manager.sh) to configure your cluster.
 

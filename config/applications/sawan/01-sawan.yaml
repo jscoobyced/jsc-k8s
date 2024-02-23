@@ -36,7 +36,7 @@ spec:
         tier: frontend
     spec:
       containers:
-      - image: jscdroiddev/sawanio:0.0.3
+      - image: jscdroiddev/sawanio:latest
         name: sawan
         env:
         - name: TZ

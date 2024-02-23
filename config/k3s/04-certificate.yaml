@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: jsc-home-certificate
+  namespace: jsc-ns
+spec:
+  secretName: jsc-home-certificate
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: dev.gawin.io
+  dnsNames:
+    - dev.gawin.io
