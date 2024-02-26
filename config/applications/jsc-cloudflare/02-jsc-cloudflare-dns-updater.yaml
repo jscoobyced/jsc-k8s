@@ -21,7 +21,7 @@ spec:
         tier: backend
     spec:
       containers:
-        - image: jscdroiddev/jsc-cloudflare-dns-updater:0.0.3
+        - image: jscdroiddev/jsc-cloudflare-dns-updater:latest
           name: jsc-cloudflare-dns-updater
           resources:
             requests:
