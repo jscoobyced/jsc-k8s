@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jsc-cloudflare-dns-updater
+  namespace: jsc-ns
+  labels:
+    app: jsc-cloudflare-dns-updater
+spec:
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: jsc-cloudflare-dns-updater
+      tier: backend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      namespace: jsc-ns
+      labels:
+        app: jsc-cloudflare-dns-updater
+        tier: backend
+    spec:
+      containers:
+        - image: jscdroiddev/jsc-cloudflare-dns-updater:0.0.3
+          name: jsc-cloudflare-dns-updater
+          resources:
+            requests:
+              ephemeral-storage: "500Mi"
+            limits:
+              ephemeral-storage: "1Gi"
+          env:
+            - name: TZ
+              value: Asia/Bangkok
+            - name: NODE_ENV
+              value: production
+            - name: STORAGE_PATH
+              value: /data
+            - name: CLOUDFLARE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: jcd-secret
+                  key: cloudflare_url
+            - name: CLOUDFLARE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jcd-secret
+                  key: cloudflare_api_key

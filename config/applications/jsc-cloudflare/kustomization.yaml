@@ -1,0 +1,3 @@
+resources:
+  - 01-secret.yaml
+  - 02-jsc-cloudflare-dns-updater.yaml
