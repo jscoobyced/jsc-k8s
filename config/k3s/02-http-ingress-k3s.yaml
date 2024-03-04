@@ -13,6 +13,6 @@ spec:
         path: "/"
         backend:
           service:
-            name: sawan
+            name: jsc-vsc-online
             port:
               number: 80
