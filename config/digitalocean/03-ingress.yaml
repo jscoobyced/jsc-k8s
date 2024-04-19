@@ -108,7 +108,7 @@ spec:
         path: "/"
         backend:
           service:
-            name: rochefolle
+            name: k3s-dashboard-svc
             port:
               number: 80
   - host: "www.rochefolle.org"
@@ -118,6 +118,6 @@ spec:
         path: "/"
         backend:
           service:
-            name: rochefolle
+            name: k3s-dashboard-svc
             port:
               number: 80
