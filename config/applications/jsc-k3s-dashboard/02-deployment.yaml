@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: k3s-dashboard
-        image: jscdroiddev/jsc-k3s-dashboard:latest
+        image: jscdroiddev/jsc-k3s-dashboard:v0.1.1
         imagePullPolicy: Always
         env:
         - name: TZ

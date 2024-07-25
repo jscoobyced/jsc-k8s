@@ -1,0 +1,46 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: jsc-home-certificate
+  namespace: jsc-ns
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - narok.io
+      - www.narok.io
+      - dev.gawin.io
+      secretName: jsc-home-certificate
+  rules:
+  - host: "narok.io"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: narok-wp-svc
+            port:
+              number: 3000
+  - host: "www.narok.io"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: narok-wp-svc
+            port:
+              number: 3000
+  - host: dev.gawin.io
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: k3s-dashboard-svc
+            port:
+              number: 3000

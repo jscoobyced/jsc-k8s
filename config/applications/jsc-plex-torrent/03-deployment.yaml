@@ -19,20 +19,10 @@ spec:
         tier: frontend
     spec:
       volumes:
-      - name: jsc-pt-volume
-        persistentVolumeClaim:
-          claimName: jsc-pt-pv-claim
-
-      initContainers:
-      - name: change-ownership-container
-        image: busybox
-        command: ["/bin/chown","-R","1000:1000", "/opt/transmission"]
-        securityContext:
-          runAsUser: 0
-          privileged: true
-        volumeMounts:
-        - name: jsc-pt-volume
-          mountPath: /opt/transmission
+      - name: jsc-nfs
+        nfs:
+          server: 192.168.1.120
+          path: /data/nfs-01
 
       containers:
       - name: jsc-transmission
@@ -65,38 +55,5 @@ spec:
             cpu: "1024m"
             memory: "1Gi"
         volumeMounts:
-          - name: jsc-pt-volume
-            mountPath: /opt/transmission
-
-      - name: jsc-plex
-        image: plexinc/pms-docker
-        imagePullPolicy: Always
-
-        env:
-        - name: TZ
-          value: "Asia/Bangkok"
-        - name: INCOMPLETE_DIR
-          value: "/opt/transmission/incomplete"
-        - name: CONFIG_DIR
-          value: "/opt/transmission/config"
-        - name: PLEX_CLAIM
-          valueFrom:
-            secretKeyRef:
-              name: jsc-pt-secret
-              key: plex_claim_token
-        - name: DOWNLOAD_DIR
-          value: "/opt/transmission/Movies"
-        - name: ALLOWED_IP
-          value: "127.0.0.1,192.168.1.*,10.42.*.*"
-        ports:
-          - containerPort: 9091
-        resources:
-          limits:
-            cpu: "1024m"
-            memory: "2Gi"
-          requests:
-            cpu: "1024m"
-            memory: "1Gi"
-        volumeMounts:
-          - name: jsc-pt-volume
+          - name: jsc-nfs
             mountPath: /opt/transmission

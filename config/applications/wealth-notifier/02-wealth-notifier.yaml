@@ -35,47 +35,54 @@ spec:
         tier: backend
     spec:
       containers:
-      - image: jscdroiddev/wealth-notifier:latest
-        name: wealth-notifier
-        resources:
-          requests:
-            ephemeral-storage: "500Mi"
-          limits:
-            ephemeral-storage: "1Gi"
-        env:
-        - name: TZ
-          value: Asia/Bangkok
-        - name: NODE_ENV
-          value: production
-        - name: SLACK_WEBHOOK
-          valueFrom:
-            secretKeyRef:
-              name: wl-secret
-              key: slack_webhook
-        - name: MARKETDATA_API_URL
-          valueFrom:
-            secretKeyRef:
-              name: wl-secret
-              key: market_data_api_url
-        - name: MARKETDATA_API_KEY
-          valueFrom:
-            secretKeyRef:
-              name: wl-secret
-              key: market_data_api_key
-        - name: YLGBULLION_URL
-          valueFrom:
-            secretKeyRef:
-              name: wl-secret
-              key: ylg_bullion_url
-        - name: AURORA_URL
-          valueFrom:
-            secretKeyRef:
-              name: wl-secret
-              key: aurora_url
-        volumeMounts:
-        - name: wealth-notifier-persistent-storage
-          mountPath: /data
+        - image: jscdroiddev/wealth-notifier:latest
+          name: wealth-notifier
+          imagePullPolicy: Always
+          resources:
+            requests:
+              ephemeral-storage: "500Mi"
+            limits:
+              ephemeral-storage: "1Gi"
+          env:
+            - name: TZ
+              value: Asia/Bangkok
+            - name: NODE_ENV
+              value: production
+            - name: STORAGE_PATH
+              value: /data
+            - name: CURRENCY_THRESHOLD
+              value: '3.93'
+            - name: GOLD_99_THRESHOLD
+              value: '41000'
+            - name: SLACK_WEBHOOK
+              valueFrom:
+                secretKeyRef:
+                  name: wl-secret
+                  key: slack_webhook
+            - name: MARKETDATA_API_URL
+              valueFrom:
+                secretKeyRef:
+                  name: wl-secret
+                  key: market_data_api_url
+            - name: MARKETDATA_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: wl-secret
+                  key: market_data_api_key
+            - name: YLGBULLION_URL
+              valueFrom:
+                secretKeyRef:
+                  name: wl-secret
+                  key: ylg_bullion_url
+            - name: AURORA_URL
+              valueFrom:
+                secretKeyRef:
+                  name: wl-secret
+                  key: aurora_url
+          volumeMounts:
+            - name: wealth-notifier-persistent-storage
+              mountPath: /data
       volumes:
-      - name: wealth-notifier-persistent-storage
-        persistentVolumeClaim:
-          claimName: wealth-notifier-pv-claim
+        - name: wealth-notifier-persistent-storage
+          persistentVolumeClaim:
+            claimName: wealth-notifier-pv-claim

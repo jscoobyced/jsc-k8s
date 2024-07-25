@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: narok-wp-mariadb-svc
+  namespace: jsc-ns
+  labels:
+    app: narok-wp
+spec:
+  ports:
+    - port: 3306
+  selector:
+    app: narok-wp
+    tier: mariadb
+  externalIPs:
+  - 192.168.1.132
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: narok-wp-svc
+  namespace: jsc-ns
+  labels:
+    app: narok-wp
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3000
+      targetPort: 80
+  selector:
+    app: narok-wp
+    tier: frontend
+  externalIPs:
+  - 192.168.1.132

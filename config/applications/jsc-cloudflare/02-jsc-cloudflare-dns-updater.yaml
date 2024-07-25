@@ -23,6 +23,7 @@ spec:
       containers:
         - image: jscdroiddev/jsc-cloudflare-dns-updater:latest
           name: jsc-cloudflare-dns-updater
+          imagePullPolicy: Always
           resources:
             requests:
               ephemeral-storage: "500Mi"

@@ -1,20 +1,4 @@
 apiVersion: v1
-kind: Service
-metadata:
-  name: narok-wp
-  namespace: jsc-ns
-  labels:
-    app: narok-wp
-spec:
-  type: ClusterIP
-  ports:
-    - port: 80
-      targetPort: 80
-  selector:
-    app: narok-wp
-    tier: frontend
----
-apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: narok-wp-pv-claim
