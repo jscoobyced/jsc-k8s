@@ -1,5 +1,6 @@
 resources:
   - 01-secret.yaml
-  - 02-narok-mariadb.yaml
-  - 03-narok-wp.yaml
-  - 04-service.yaml
+  - 02-volumes.yaml
+  - 03-narok-mariadb.yaml
+  - 04-narok-wp.yaml
+  - 05-service.yaml
