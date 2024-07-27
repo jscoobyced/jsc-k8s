@@ -36,6 +36,8 @@ spec:
               value: production
             - name: STORAGE_PATH
               value: /data
+            - name: DOMAINS
+              value: gawin.io,narok.io,sawan.io,rochefolle.org
             - name: CLOUDFLARE_URL
               valueFrom:
                 secretKeyRef:

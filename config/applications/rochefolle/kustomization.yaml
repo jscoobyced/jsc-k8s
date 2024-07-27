@@ -1,2 +1,4 @@
 resources:
-  - 01-rochefolle.yaml
+  - 01-volumes.yaml
+  - 02-rochefolle.yaml
+  - 03-service.yaml

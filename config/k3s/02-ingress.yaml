@@ -11,7 +11,10 @@ spec:
     - hosts:
       - narok.io
       - www.narok.io
-      - dev.gawin.io
+      - gawin.io
+      - sawan.io
+      - www.sawan.io
+      - rochefolle.org
       secretName: jsc-home-certificate
   rules:
   - host: "narok.io"
@@ -34,7 +37,27 @@ spec:
             name: narok-wp-svc
             port:
               number: 3000
-  - host: dev.gawin.io
+  - host: "sawan.io"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: sawan-svc
+            port:
+              number: 3001
+  - host: "www.sawan.io"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: sawan-svc
+            port:
+              number: 3001
+  - host: gawin.io
     http:
       paths:
       - pathType: Prefix
@@ -44,3 +67,23 @@ spec:
             name: k3s-dashboard-svc
             port:
               number: 3000
+  - host: rochefolle.org
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: k3s-dashboard-svc
+            port:
+              number: 3002
+  - host: www.rochefolle.org
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: k3s-dashboard-svc
+            port:
+              number: 3002

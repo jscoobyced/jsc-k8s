@@ -25,6 +25,8 @@ spec:
         env:
         - name: TZ
           value: "Asia/Bangkok"
+        - name: SITE_NAME
+          value: "gawin.io"
         - name: SERVER_URL
           valueFrom:
             secretKeyRef:
