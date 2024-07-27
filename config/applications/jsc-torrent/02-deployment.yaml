@@ -1,13 +1,13 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jsc-plex-torrent
+  name: jsc-torrent
   namespace: jsc-ns
 
 spec:
   selector:
     matchLabels:
-      app: jsc-plex-torrent
+      app: jsc-torrent
       tier: frontend
   strategy:
     type: Recreate
@@ -15,7 +15,7 @@ spec:
     metadata:
       namespace: jsc-ns
       labels:
-        app: jsc-plex-torrent
+        app: jsc-torrent
         tier: frontend
     spec:
       volumes:

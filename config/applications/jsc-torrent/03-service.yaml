@@ -5,7 +5,7 @@ metadata:
   namespace: jsc-ns
 spec:
   selector:
-    app: jsc-plex-torrent
+    app: jsc-torrent
   ports:
   - port: 9091
     name: jsc-transmission
