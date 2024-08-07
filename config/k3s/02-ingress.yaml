@@ -46,7 +46,7 @@ spec:
           service:
             name: sawan-svc
             port:
-              number: 3001
+              number: 3000
   - host: "www.sawan.io"
     http:
       paths:
@@ -56,7 +56,7 @@ spec:
           service:
             name: sawan-svc
             port:
-              number: 3001
+              number: 3000
   - host: gawin.io
     http:
       paths:
@@ -74,9 +74,9 @@ spec:
         path: "/"
         backend:
           service:
-            name: k3s-dashboard-svc
+            name: rochefolle-svc
             port:
-              number: 3002
+              number: 3000
   - host: www.rochefolle.org
     http:
       paths:
@@ -84,6 +84,6 @@ spec:
         path: "/"
         backend:
           service:
-            name: k3s-dashboard-svc
+            name: rochefolle-svc
             port:
-              number: 3002
+              number: 3000
