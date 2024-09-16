@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k3s-dash-server
+  namespace: jsc-ns
+  labels:
+    app: k3s-dash-server
+    component: k3s-dash-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: k3s-dash-server
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: k3s-dash-server
+        tier: backend
+    spec:
+      containers:
+        - name: k3s-dash-server
+          image: jscdroiddev/jsc-k3s-dashboard-server:latest
+          imagePullPolicy: Always
+          env:
+            - name: TZ
+              value: "Asia/Bangkok"
+          ports:
+            - containerPort: 80
+              name: k3s-dash-server
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "1024Mi"
+            requests:
+              cpu: "500m"
+              memory: "512Mi"
+      terminationGracePeriodSeconds: 5

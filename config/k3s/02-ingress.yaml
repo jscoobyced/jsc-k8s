@@ -9,81 +9,92 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-      - narok.io
-      - www.narok.io
-      - gawin.io
-      - sawan.io
-      - www.sawan.io
-      - rochefolle.org
+        - narok.io
+        - www.narok.io
+        - gawin.io
+        - dev.gawin.io
+        - sawan.io
+        - www.sawan.io
+        - rochefolle.org
       secretName: jsc-home-certificate
   rules:
-  - host: "narok.io"
-    http:
-      paths:
-      - pathType: Prefix
-        path: "/"
-        backend:
-          service:
-            name: narok-wp-svc
-            port:
-              number: 3000
-  - host: "www.narok.io"
-    http:
-      paths:
-      - pathType: Prefix
-        path: "/"
-        backend:
-          service:
-            name: narok-wp-svc
-            port:
-              number: 3000
-  - host: "sawan.io"
-    http:
-      paths:
-      - pathType: Prefix
-        path: "/"
-        backend:
-          service:
-            name: sawan-svc
-            port:
-              number: 3000
-  - host: "www.sawan.io"
-    http:
-      paths:
-      - pathType: Prefix
-        path: "/"
-        backend:
-          service:
-            name: sawan-svc
-            port:
-              number: 3000
-  - host: gawin.io
-    http:
-      paths:
-      - pathType: Prefix
-        path: "/"
-        backend:
-          service:
-            name: k3s-dashboard-svc
-            port:
-              number: 3000
-  - host: rochefolle.org
-    http:
-      paths:
-      - pathType: Prefix
-        path: "/"
-        backend:
-          service:
-            name: rochefolle-svc
-            port:
-              number: 3000
-  - host: www.rochefolle.org
-    http:
-      paths:
-      - pathType: Prefix
-        path: "/"
-        backend:
-          service:
-            name: rochefolle-svc
-            port:
-              number: 3000
+    - host: "narok.io"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: narok-wp-svc
+                port:
+                  number: 3000
+    - host: "www.narok.io"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: narok-wp-svc
+                port:
+                  number: 3000
+    - host: "sawan.io"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: sawan-svc
+                port:
+                  number: 3000
+    - host: "www.sawan.io"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: sawan-svc
+                port:
+                  number: 3000
+    - host: gawin.io
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: k3s-dashboard-svc-client
+                port:
+                  number: 80
+    - host: api.gawin.io
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: k3s-dashboard-svc-server
+                port:
+                  number: 3000
+    - host: rochefolle.org
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: rochefolle-svc
+                port:
+                  number: 3000
+    - host: www.rochefolle.org
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: rochefolle-svc
+                port:
+                  number: 3000

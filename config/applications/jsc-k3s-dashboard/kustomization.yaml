@@ -1,5 +1,7 @@
 resources:
   - 01-secret.yaml
   - 02-volumes.yaml
-  - 03-deployment.yaml
-  - 04-service.yaml
+  - 03-deployment-client.yaml
+  - 03-deployment-server.yaml
+  - 04-service-client.yaml
+  - 04-service-server.yaml
