@@ -20,11 +20,28 @@ spec:
     spec:
       containers:
         - name: k3s-dash-server
-          image: jscdroiddev/jsc-k3s-dashboard-server:latest
+          image: jscdroiddev/jsc-k3s-dashboard-server:0.6.6
           imagePullPolicy: Always
           env:
             - name: TZ
               value: "Asia/Bangkok"
+            - name: DOMAIN
+              value: "gawin.io"
+            - name: PORT
+              value: ""
+            - name: SCHEME
+              value: "https"
+            - name: SERVER_URL
+              valueFrom:
+                secretKeyRef:
+                  name: jsc-k3s-secret
+                  key: server_url
+            - name: API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: jsc-k3s-secret
+                  key: api_token
+
           ports:
             - containerPort: 80
               name: k3s-dash-server

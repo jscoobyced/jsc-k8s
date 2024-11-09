@@ -37,7 +37,7 @@ spec:
             - name: STORAGE_PATH
               value: /data
             - name: DOMAINS
-              value: gawin.io,narok.io,sawan.io,rochefolle.org
+              value: gawin.io,narok.io,sawan.io,rochefolle.org,rochefolle.net
             - name: CLOUDFLARE_URL
               valueFrom:
                 secretKeyRef:

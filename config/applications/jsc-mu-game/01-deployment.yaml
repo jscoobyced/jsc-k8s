@@ -1,38 +1,37 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: k3s-dash-client
+  name: jsc-mu-game-app
   namespace: jsc-ns
   labels:
-    app: k3s-dash-client
-    component: k3s-dash-client
+    app: jsc-mu-game-app
+    component: jsc-mu-game-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: k3s-dash-client
+      app: jsc-mu-game-app
       tier: frontend
   template:
     metadata:
       labels:
-        app: k3s-dash-client
+        app: jsc-mu-game-app
         tier: frontend
     spec:
       containers:
-        - name: k3s-dash-client
-          image: jscdroiddev/jsc-k3s-dashboard-client:0.6.6
+        - name: jsc-mu-game
+          image: jscdroiddev/jsc-mu-game:latest
           imagePullPolicy: Always
           env:
             - name: TZ
               value: "Asia/Bangkok"
           ports:
             - containerPort: 80
-              name: k3s-dash-client
+              name: jsc-mu-game-app
           resources:
             limits:
               cpu: "500m"
-              memory: "1024Mi"
+              memory: "256Mi"
             requests:
               cpu: "500m"
-              memory: "512Mi"
-      terminationGracePeriodSeconds: 5
+              memory: "128Mi"

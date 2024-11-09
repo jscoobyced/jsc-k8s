@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jsc-gs-app
+  namespace: jsc-ns
+  labels:
+    app: jsc-gs-app
+    component: jsc-gs-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jsc-gs-app
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: jsc-gs-app
+        tier: backend
+    spec:
+      containers:
+        - name: jsc-gs-app
+          image: jscdroiddev/jsc-gmail-stats:0.1.5
+          imagePullPolicy: Always
+          env:
+            - name: TZ
+              value: "Asia/Bangkok"
+            - name: JSC_CALLBACK_URL
+              value: https://rochefolle.org/Callback
+            - name: JSC_CREDENTIALS
+              valueFrom:
+                secretKeyRef:
+                  name: jsc-gs-credentials
+                  key: credentials
+          ports:
+            - containerPort: 8080
+              name: jsc-gs-app
+          volumeMounts:
+            - name: jsc-gs-storage
+              mountPath: /app/jsc-gmail-stats/tokens
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "4096Mi"
+            requests:
+              cpu: "500m"
+              memory: "2048Mi"
+      volumes:
+        - name: jsc-gs-storage
+          persistentVolumeClaim:
+            claimName: jsc-gs-pv-claim
+      terminationGracePeriodSeconds: 5

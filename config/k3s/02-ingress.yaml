@@ -10,12 +10,10 @@ spec:
   tls:
     - hosts:
         - narok.io
-        - www.narok.io
         - gawin.io
-        - dev.gawin.io
         - sawan.io
-        - www.sawan.io
         - rochefolle.org
+        - rochefolle.net
       secretName: jsc-home-certificate
   rules:
     - host: "narok.io"
@@ -85,9 +83,9 @@ spec:
             path: "/"
             backend:
               service:
-                name: rochefolle-svc
+                name: jsc-gs-app-svc
                 port:
-                  number: 3000
+                  number: 8888
     - host: www.rochefolle.org
       http:
         paths:
@@ -95,6 +93,26 @@ spec:
             path: "/"
             backend:
               service:
-                name: rochefolle-svc
+                name: jsc-gs-app-svc
                 port:
-                  number: 3000
+                  number: 8888
+    - host: rochefolle.net
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: jsc-mu-game-svc
+                port:
+                  number: 8889
+    - host: www.rochefolle.net
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: jsc-mu-game-svc
+                port:
+                  number: 8889
