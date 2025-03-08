@@ -20,22 +20,22 @@ spec:
         tier: frontend
     spec:
       containers:
-      - image: nginx:latest
-        name: rochefolle
-        resources:
-          requests:
-            ephemeral-storage: "400Mi"
-            memory: "200Mi"
-          limits:
-            ephemeral-storage: "500Mi"
-            memory: "250Mi"
-        ports:
-        - containerPort: 80
+        - image: nginx:latest
           name: rochefolle
-        volumeMounts:
-        - name: rochefolle-persistent-storage
-          mountPath: /usr/share/nginx/html
+          resources:
+            requests:
+              ephemeral-storage: "400Mi"
+              memory: "400Mi"
+            limits:
+              ephemeral-storage: "500Mi"
+              memory: "400Mi"
+          ports:
+            - containerPort: 80
+              name: rochefolle
+          volumeMounts:
+            - name: rochefolle-persistent-storage
+              mountPath: /usr/share/nginx/html
       volumes:
-      - name: rochefolle-persistent-storage
-        persistentVolumeClaim:
-          claimName: rochefolle-pv-claim
+        - name: rochefolle-persistent-storage
+          persistentVolumeClaim:
+            claimName: rochefolle-pv-claim

@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: jsc-home-certificate
+  name: ingress-nginx
   namespace: jsc-ns
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
@@ -36,6 +36,16 @@ spec:
                 name: narok-wp-svc
                 port:
                   number: 3000
+    - host: "gpt.narok.io"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: narok-gpt-svc
+                port:
+                  number: 3001
     - host: "sawan.io"
       http:
         paths:
@@ -103,10 +113,20 @@ spec:
             path: "/"
             backend:
               service:
-                name: jsc-mu-game-svc
+                name: rochefolle-svc
                 port:
-                  number: 8889
+                  number: 3000
     - host: www.rochefolle.net
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: rochefolle-svc
+                port:
+                  number: 3000
+    - host: mumu.rochefolle.net
       http:
         paths:
           - pathType: Prefix

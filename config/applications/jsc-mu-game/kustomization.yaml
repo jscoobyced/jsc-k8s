@@ -1,3 +1,4 @@
 resources:
-  - 01-deployment.yaml
-  - 02-service.yaml
+  #  - 01-volumes.yaml
+  - 02-deployment.yaml
+  - 03-service.yaml

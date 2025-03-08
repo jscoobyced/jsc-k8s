@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: narok-wp-apache-configmap
+  namespace: jsc-ns
+data:
+  log.conf: |
+    LogFormat "{ \
+      \"@timestamp\": \"%{%Y-%m-%dT%H:%M:%S%z}t\", \
+      \"remote_addr\": \"%a\", \
+      \"http_host\": \"%v\", \
+      \"request_method\": \"%m\", \
+      \"request_uri\": \"%U\", \
+      \"query\": \"%q\", \
+      \"scheme\": \"%H\", \
+      \"status\": \"%>s\", \
+      \"bytes_sent\": \"%B\", \
+      \"http_referrer\": \"%{Referer}i\", \
+      \"http_user_agent\": \"%{User-Agent}i\", \
+      \"request_time\": \"%D\", \
+      \"http_x_forwarded_for\": \"%a\", \
+      \"http_version\": \"%H\", \
+      \"request\": \"%r\" \
+    }" json
+  000-default.conf: |
+    <VirtualHost *:80>
+      ServerName narok.io
+      ServerAdmin webmaster@localhost
+      DocumentRoot /var/www/html
+      ErrorLog ${APACHE_LOG_DIR}/error.log
+      CustomLog ${APACHE_LOG_DIR}/access.log json
+
+    </VirtualHost>

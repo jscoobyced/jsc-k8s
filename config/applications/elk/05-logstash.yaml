@@ -1,0 +1,59 @@
+apiVersion: logstash.k8s.elastic.co/v1alpha1
+kind: Logstash
+metadata:
+  name: jsc-logstash
+  namespace: jsc-ns
+spec:
+  count: 1
+  elasticsearchRefs:
+    - name: jsc-elasticsearch
+      clusterName: jsc-elasticsearch
+  version: 8.17.2
+  pipelines:
+    - pipeline.id: main
+      config.string: |
+        input {
+          beats {
+            port => 5044
+          }
+        }
+        filter {
+          json {
+            source => "message"
+          }
+
+          # mutate {
+          #   add_field => {"[@metadata][target_index]"=> "filebeat-%{+YYYY.MM.dd}"}
+          # }
+
+          geoip {
+            source => "http_x_forwarded_for"
+            target => "geoip"
+            database => "/usr/share/logstash/vendor/bundle/jruby/3.1.0/gems/logstash-filter-geoip-7.3.1-java/vendor/GeoLite2-City.mmdb"
+          }
+
+          useragent {
+            source => "http_user_agent"
+            target => "useragent"
+          }
+        }
+        output {
+          elasticsearch {
+            hosts => [ "${JSC_ELASTICSEARCH_ES_HOSTS}" ]
+            user => "${JSC_ELASTICSEARCH_ES_USER}"
+            password => "${JSC_ELASTICSEARCH_ES_PASSWORD}"
+            ssl_certificate_authorities => "${JSC_ELASTICSEARCH_ES_SSL_CERTIFICATE_AUTHORITY}"
+          }
+
+          stdout {}
+        }
+  services:
+    - name: beats
+      service:
+        spec:
+          type: ClusterIP
+          ports:
+            - port: 5044
+              name: "filebeat"
+              protocol: TCP
+              targetPort: 5044

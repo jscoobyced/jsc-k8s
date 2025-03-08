@@ -13,5 +13,3 @@ spec:
   selector:
     app: rochefolle
     tier: frontend
-  externalIPs:
-  - 192.168.1.132

@@ -12,7 +12,7 @@ spec:
     app: narok-wp
     tier: mariadb
   externalIPs:
-  - 192.168.1.132
+    - 192.168.1.132
 ---
 apiVersion: v1
 kind: Service
@@ -30,4 +30,22 @@ spec:
     app: narok-wp
     tier: frontend
   externalIPs:
-  - 192.168.1.132
+    - 192.168.1.132
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: narok-gpt-svc
+  namespace: jsc-ns
+  labels:
+    app: narok-gpt
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3001
+      targetPort: 80
+  selector:
+    app: narok-gpt
+    tier: frontend
+  externalIPs:
+    - 192.168.1.132

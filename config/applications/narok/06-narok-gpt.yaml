@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: narok-gpt
+  namespace: jsc-ns
+  labels:
+    app: narok-gpt
+spec:
+  selector:
+    matchLabels:
+      app: narok-gpt
+      tier: frontend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      namespace: jsc-ns
+      labels:
+        app: narok-gpt
+        tier: frontend
+    spec:
+      containers:
+        - image: jscdroiddev/gpt-narok-io:0.0.3
+          name: narok-gpt
+          resources:
+            requests:
+              ephemeral-storage: "0.5Gi"
+              memory: "250Mi"
+            limits:
+              ephemeral-storage: "1Gi"
+              memory: "300Mi"
+          env:
+            - name: TZ
+              value: Asia/Bangkok
+          ports:
+            - containerPort: 80
+              name: narok-gpt
