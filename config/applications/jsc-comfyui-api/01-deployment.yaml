@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jsc-comfyui-app
+  namespace: jsc-ns
+  labels:
+    app: jsc-comfyui-app
+    component: jsc-comfyui-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jsc-comfyui-app
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: jsc-comfyui-app
+        tier: frontend
+    spec:
+      containers:
+        - name: jsc-comfyui-api
+          image: jscdroiddev/jsc-comfyui-api:1.1.4
+          imagePullPolicy: Always
+          env:
+            - name: TZ
+              value: "Asia/Bangkok"
+            - name: PORT
+              value: "3000"
+            - name: NODE_ENV
+              value: "production"
+            - name: APP_NAME
+              value: "Generate image using ComfyUI"
+            - name: APP_DESCRIPTION
+              value: "Simple API to run a ComfyUI workflow and generate an image."
+            - name: APP_VERSION
+              value: "v0.1.0"
+            - name: COMFYUI_URL
+              valueFrom:
+                secretKeyRef:
+                  name: comfyui-secret
+                  key: COMFYUI_URL
+          ports:
+            - containerPort: 3000
+              name: jsc-comfyui-app
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
+            requests:
+              cpu: "500m"
+              memory: "128Mi"

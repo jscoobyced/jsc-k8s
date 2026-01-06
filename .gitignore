@@ -1,3 +1,4 @@
 *secret.yaml
 kubeconfig.yaml
 secrets
+jwt_key.jwk

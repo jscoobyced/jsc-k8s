@@ -5,6 +5,7 @@ metadata:
   namespace: jsc-ns
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/proxy-body-size: 8m
 spec:
   ingressClassName: nginx
   tls:
@@ -46,6 +47,26 @@ spec:
                 name: narok-gpt-svc
                 port:
                   number: 3001
+    - host: "llm.narok.io"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: narok-gpt-svc
+                port:
+                  number: 3001
+    - host: "n8n.narok.io"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: n8n-svc
+                port:
+                  number: 5678
     - host: "sawan.io"
       http:
         paths:

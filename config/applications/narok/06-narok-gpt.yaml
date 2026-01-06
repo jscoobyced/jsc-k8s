@@ -20,7 +20,7 @@ spec:
         tier: frontend
     spec:
       containers:
-        - image: jscdroiddev/gpt-narok-io:0.0.3
+        - image: jscdroiddev/jsc-nginx-jwt:0.0.2
           name: narok-gpt
           resources:
             requests:
@@ -35,3 +35,15 @@ spec:
           ports:
             - containerPort: 80
               name: narok-gpt
+          volumeMounts:
+            - name: narok-gpt-jwt-key
+              mountPath: /etc/nginx/conf.d/
+      volumes:
+        - name: narok-gpt-jwt-key
+          configMap:
+            name: narok-gpt-configmap
+            items:
+              - key: public.jwks
+                path: public.jwks
+              - key: nginx.conf
+                path: nginx.conf

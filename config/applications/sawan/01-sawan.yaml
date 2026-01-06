@@ -20,19 +20,19 @@ spec:
         tier: frontend
     spec:
       containers:
-      - image: jscdroiddev/sawanio:latest
-        name: sawan
-        imagePullPolicy: Always
-        env:
-        - name: TZ
-          value: Asia/Bangkok
-        resources:
-          requests:
-            ephemeral-storage: "1Gi"
-            memory: "200Mi"
-          limits:
-            ephemeral-storage: "2Gi"
-            memory: "250Mi"
-        ports:
-        - containerPort: 3000
+        - image: jscdroiddev/sawanio:0.6.6
           name: sawan
+          imagePullPolicy: Always
+          env:
+            - name: TZ
+              value: Asia/Bangkok
+          resources:
+            requests:
+              ephemeral-storage: "1Gi"
+              memory: "200Mi"
+            limits:
+              ephemeral-storage: "2Gi"
+              memory: "250Mi"
+          ports:
+            - containerPort: 3000
+              name: sawan

@@ -20,13 +20,16 @@ spec:
     spec:
       containers:
         - name: jsc-gs-app
-          image: jscdroiddev/jsc-gmail-stats:0.1.5
+          image: jscdroiddev/jsc-gmail-stats:0.1.8
           imagePullPolicy: Always
           env:
             - name: TZ
               value: "Asia/Bangkok"
             - name: JSC_CALLBACK_URL
-              value: https://rochefolle.org/Callback
+              valueFrom:
+                secretKeyRef:
+                  name: jsc-gs-secrets
+                  key: JSC_CALLBACK_URL
             - name: JSC_CREDENTIALS
               valueFrom:
                 secretKeyRef:

@@ -1,0 +1,9 @@
+resources:
+  - n8n-claim0-persistentvolumeclaim.yaml
+  - postgres-claim0-persistentvolumeclaim.yaml
+  - postgres-secret.yaml
+  - postgres-configmap.yaml
+  - postgres-deployment.yaml
+  - postgres-service.yaml
+  - n8n-deployment.yaml
+  - n8n-service.yaml
