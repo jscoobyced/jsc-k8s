@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gold-price
+  namespace: jsc-ns
+  labels:
+    app: gold-price
+spec:
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: gold-price
+      tier: backend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      namespace: jsc-ns
+      labels:
+        app: gold-price
+        tier: backend
+    spec:
+      containers:
+        - image: jscdroiddev/gold-price-tracker:0.0.1
+          name: gold-price
+          imagePullPolicy: Always
+          resources:
+            requests:
+              ephemeral-storage: "500Mi"
+            limits:
+              ephemeral-storage: "1Gi"
+          env:
+            - name: TZ
+              value: Asia/Bangkok
+            - name: NODE_ENV
+              value: production
+            - name: STORAGE_PATH
+              value: /data
+            - name: YLGBULLION_URL
+              value: https://register.ylgbullion.co.th/api/price/gold
+            # - name: GOLD_THRESHOLD
+            #   value: "1.2"
+            # - name: SLACK_WEBHOOK
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: wl-secret
+            #       key: slack_webhook
+          volumeMounts:
+            - name: gold-price-persistent-storage
+              mountPath: /data
+      volumes:
+        - name: gold-price-persistent-storage
+          persistentVolumeClaim:
+            claimName: gold-price-pv-claim
